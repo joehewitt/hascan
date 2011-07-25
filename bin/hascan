@@ -1,0 +1,114 @@
+#!/usr/bin/env node
+
+var hascan = require('../lib/hascan'),
+    path = require('path'),
+    http = require('http'),
+    url = require('url'),
+    fs = require('fs'),
+    _ = require('underscore');
+
+var usage = ''
+  + '\n'
+  + '  Usage: hascan [options] [features]\n'
+  + '\n'
+  + '  Options:\n'
+  + '    -b, --build              build has.js with only the tests you want\n'
+  + '    -u, --update             download the latest data from Browserscope\n'
+  + '    -h, --help               output help information\n'
+  ;
+
+var browserscope =
+    "http://www.browserscope.org/user/tests/table/agt1YS1wcm9maWxlcnINCxIEVGVzdBiG3-0GDA?v=3&o=json";
+
+var args = process.argv.slice(2);
+var features = [];
+var command;
+
+while (args.length) {
+  var arg = args.shift();
+  switch (arg) {
+    case '-h':
+    case '--help':
+      abort(usage);
+      break;
+    case '-b':
+    case '--build':
+      command = build;
+      break;
+    case '-u':
+    case '--update':
+      command = update;
+      break;
+    default:
+        features.push(arg);
+  }
+}
+
+if (command) {
+    command(features);
+} else {
+    abort(usage);
+}
+
+function build(features) {
+    hascan.buildHasWithTests(features, function(err, js) {
+        if (err) {
+            console.error(err);
+        } else {
+            console.log(js);    
+        }
+    });
+}
+
+function update(features) {
+    var URL = url.parse(browserscope);
+    var options = {host: URL.host, port: URL.port, path: URL.pathname+URL.search};
+    console.log('Loading', browserscope, '...');
+
+    http.get(options, function(res) {
+        var data = [];
+        res.on('data', function(chunk) {
+            data.push(chunk);
+        });
+
+        res.on('end', function() {
+            var output = data.join('');
+            var hasJsonPath = path.resolve(path.join(__dirname, '..', 'has.json'));
+            // XXXjoe Read and parse previous version here
+            var previousData;
+            fs.readFile(hasJsonPath, function(err, data) {
+                previousData = data ? JSON.parse(data) : null;
+
+                var browsers = [];
+                if (previousData) {
+                    var newData = JSON.parse(output);
+                    for (var browserId in newData.results) {
+                        if (!(browserId in previousData.results)) {
+                            browsers.push(browserId);
+                        }
+                    }
+                }
+                if (browsers.length) {
+                    console.log(browsers.length +
+                                ' new browser' + (browsers.length > 1 ? 's' : '') + ' found: ' +
+                                browsers.join(', '));
+                } else {
+                    console.log('No new browsers found.');
+                }
+
+                fs.writeFile(hasJsonPath, output, function(err) {
+                    if (err) {
+                        console.error("Unable to save has.json");
+                    }
+                });
+            });
+        });
+    }).on('error', function(err) {
+        console.error(err);
+    });
+}
+
+function abort(str) {
+    console.error(str);
+    process.exit(1);
+}
