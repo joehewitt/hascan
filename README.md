@@ -31,35 +31,34 @@ Installation
 Usage (command line)
 -------------------
 
-  Usage: hascan [options] [features]
+    Usage: hascan [options] [features]
 
-  Options:
-    -b, --build              builds has.js with only the tests you want
-                                Use [features] arguments to specify feature tests to include
-                                Use --file or stdin to include only features tested in JS source
-    -e, --eliminate          eliminates has() branches for unavailable features
-                                Use [features] arguments to specify available features
-                                Use --agent to look up the features available for a user-agent
-                                Use --file option or stdin to provide JavaScript to process
-    -s, --features           shows a list of features supported by a user agent
-                                Use --agent to specify the user-agent to query
-                                Use [features] arguments to limit list to a set of features
-    -t, --tests              shows the names of all tests supported
-    -u, --update             downloads the latest data from Browserscope to has.json
+    Options:
+        -b, --build              builds has.js with only the tests you want
+                                    Use [features] arguments to specify feature tests to include
+                                    Use --file or stdin to include only features tested in JS source
+        -e, --eliminate          eliminates has() branches for unavailable features
+                                    Use [features] arguments to specify available features
+                                    Use --agent to look up the features available for a user-agent
+                                    Use --file option or stdin to provide JavaScript to process
+        -s, --features           shows a list of features supported by a user agent
+                                    Use --agent to specify the user-agent to query
+                                    Use [features] arguments to limit list to a set of features
+        -t, --tests              shows the names of all tests supported
+        -u, --update             downloads the latest data from Browserscope to has.json
 
-    -a, --agent              user agent string
-    -f, --file               path of a file to read in
-    -m, --minify             minify generated source code
+        -a, --agent              user agent string
+        -f, --file               path of a file to read in
+        -m, --minify             minify generated source code
 
-    -h, --help               output help information
+        -h, --help               output help information     
 
 Usage (from Node.js)
 -------------------
 
 Eliminating code:
 
-    var hascan = require('./hascan');
-    
+    var hascan = require('hascan');    
     var sourceCode = 'if (has("svg")) { a() } else if (has("canvas")) { b() } else { c() }';
     var featureMap = {svg: false, canvas: true};
     var smallerCode = hascan.eliminateFeatureTests(sourceCode, featureMap);
@@ -72,6 +71,7 @@ Eliminating code:
         
 Getting features supported by a user-agent: 
 
+    var hascan = require('hascan');
     hascan.getFeatureDB(['canvas', 'svg', 'activex'], function(err, featureDB) {
         var featureMap = featureDB.getFeatureMap(userAgent);
         console.log(featureMap);
