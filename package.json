@@ -1,6 +1,6 @@
 {
   "name": "hascan",
-  "description": "Static evaluation of has.js feature tests.",
+  "description": "Build tools for has.js.",
   "version": "0.0.1",
   "homepage": "http://github.com/joehewitt/hascan",
   "repository": {
@@ -11,6 +11,7 @@
   "author": "Joe Hewitt <joe@joehewitt.com>",
   "contributors": [],
   "dependencies": {     
+    "async": "",
     "dandy": "https://github.com/joehewitt/dandy/tarball/master",
     "transformjs": "https://github.com/joehewitt/transformjs/tarball/master",
     "ua-parser": "",
