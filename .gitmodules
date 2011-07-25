@@ -1,0 +1,3 @@
+[submodule "external/has.js"]
+	path = external/has.js
+	url = https://github.com/phiggins42/has.js.git
