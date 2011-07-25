@@ -147,7 +147,7 @@ function findTest(js, expected) {
 }
 
 function stripTest(js, featureMap, expected) {
-	var source = hascan.stripFeatureTests(js, featureMap);
+	var source = hascan.elminateFeatureTests(js, featureMap);
 	assert.equal(source, expected);	
 }
 

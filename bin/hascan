@@ -12,10 +12,15 @@ var usage = ''
   + '  Usage: hascan [options] [features]\n'
   + '\n'
   + '  Options:\n'
-  + '    -b, --build              build has.js with only the tests you want\n'
-  + '    -a, --agent              gets a json dictionary of features supported by a browser\n'
-  + '    -t, --tests              lists the names of all tests supportedr\n'
-  + '    -u, --update             download the latest data from Browserscope\n'
+  + '    -b, --build              builds has.js with only the tests you want\n'
+  + '    -e, --eliminate          eliminate has() branches for unavailable features\n'
+  + '                                 Use stdin or --file option to provide JavaScript to parse.\n'
+  + '    -f, --file               path of file to read in\n'
+  + '    -m, --minify             minify generated source code\n'
+  + '    -s, --features           shows a json dictionary of features supported by a user agent\n'
+  + '    -a, --agent              the user agent string to test\n'
+  + '    -t, --tests              shows the names of all tests supportedr\n'
+  + '    -u, --update             downloads the latest data from Browserscope\n'
   + '    -h, --help               output help information\n'
   ;
 
@@ -23,35 +28,61 @@ var browserscope =
     "http://www.browserscope.org/user/tests/table/agt1YS1wcm9maWxlcnINCxIEVGVzdBiG3-0GDA?v=3&o=json";
 
 var args = process.argv.slice(2);
-var features = [];
 var command;
+var userAgent, minify, filePath;
+var features = [];
+var expected;
 
 while (args.length) {
-  var arg = args.shift();
-  switch (arg) {
-    case '-h':
-    case '--help':
-      abort(usage);
-      break;
-    case '-b':
-    case '--build':
-      command = build;
-      break;
-    case '-a':
-    case '--agent':
-      command = agent;
-      break;
-    case '-u':
-    case '--update':
-      command = update;
-      break;
-    case '-t':
-    case '--tests':
-      command = tests;
-      break;
-    default:
-        features.push(arg);
-  }
+    var arg = args.shift();
+    if (expected == 'agent') {
+        userAgent = arg;
+        expected = null;
+    } else if (expected == 'file') {
+        filePath = arg;
+        expected = null;
+    } else {
+        switch (arg) {
+            case '-b':
+            case '--build':
+                command = function() { build(minify, features); }
+                break;
+            case '-e':
+            case '--eliminate':
+                command = function() { eliminate(filePath, minify, features); }
+                break;
+            case '-f':
+            case '--file':
+                expected = 'file';
+                break;
+            case '-m':
+            case '--minify':
+                minify = true;
+                break;
+            case '-s':
+            case '--features':
+                command = function() { listFeatures(userAgent, features); }
+                break;
+            case '-a':
+            case '--agent':
+                expected = 'agent';
+                break;
+            case '-t':
+            case '--tests':
+                command = tests;
+                break;
+            case '-u':
+            case '--update':
+                command = update;
+                break;
+            case '-h':
+            case '--help':
+                abort(usage);
+                break;
+            default:
+                features.push(arg);
+        }
+    }
 }
 
 if (command) {
@@ -60,8 +91,8 @@ if (command) {
     abort(usage);
 }
 
-function build(features) {
-    hascan.buildHasWithTests(features, function(err, js) {
+function build(minify, features) {
+    hascan.buildHasWithTests(features, minify, function(err, js) {
         if (err) {
             console.error(err);
         } else {
@@ -70,9 +101,41 @@ function build(features) {
     });
 }
 
-function agent(features) {
-    var userAgent = features.shift();
+function eliminate(filePath, minify, features) {
+    var source;
+    if (!filePath) {
+        process.stdin.resume();
+        process.stdin.setEncoding('utf8');
 
+        var chunks = [];
+        process.stdin.on('data', function(chunk) {
+            chunks.push(chunk);
+        });
+        process.stdin.on('end', function(chunk) {
+            var data = chunks.join('');
+            complete(data);
+        });
+    } else {
+        fs.readFile(filePath, function(err, data) {
+            if (err) {
+                console.error("Unable to read " + filePath);            
+            } else {
+                complete(data+'');
+            }
+        });
+    }
+
+    function complete(data) {
+        var featureMap = {};
+        for (var i = 0; i < features.length; ++i) {
+            featureMap[features[i]] = true;
+        }
+        var source = hascan.elminateFeatureTests(data, featureMap, minify, !minify);
+        console.log(source);
+    }
+}
+
+function listFeatures(userAgent, features) {
     hascan.getFeatureDB(features, function(err, featureDB) {
         if (err) {
             console.error("Error loading feature database: " + err)

@@ -15,7 +15,6 @@
     "dandy": "https://github.com/joehewitt/dandy/tarball/master",
     "transformjs": "https://github.com/joehewitt/transformjs/tarball/master",
     "ua-parser": "",
-    "uglify-js": "",
     "underscore": ""
   },
   "engines": { "node": ">=0.4.0" },
