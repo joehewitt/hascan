@@ -1,0 +1,21 @@
+{
+  "name": "hascan",
+  "description": "Static evaluation of has.js feature tests.",
+  "version": "0.0.1",
+  "homepage": "http://github.com/joehewitt/hascan",
+  "repository": {
+      "type": "git",
+      "url" : "http://github.com/joehewitt/hascan.git"
+  },
+  "keywords": [],
+  "author": "Joe Hewitt <joe@joehewitt.com>",
+  "contributors": [],
+  "dependencies": {     
+    "dandy": "https://github.com/joehewitt/dandy/tarball/master",
+    "ua-parser": "",
+    "uglify-js": ""
+  },
+  "engines": { "node": ">=0.4.0" },
+  "main": "./lib/hascan",
+  "directories": {}
+}
