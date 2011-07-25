@@ -2,30 +2,32 @@
 
 var hascan = require('../lib/hascan'),
     path = require('path'),
-    http = require('http'),
-    url = require('url'),
     fs = require('fs'),
     _ = require('underscore');
 
 var usage = ''
-  + '\n'
-  + '  Usage: hascan [options] [features]\n'
-  + '\n'
-  + '  Options:\n'
-  + '    -b, --build              builds has.js with only the tests you want\n'
-  + '    -e, --eliminate          eliminate has() branches for unavailable features\n'
-  + '                                 Use stdin or --file option to provide JavaScript to parse.\n'
-  + '    -f, --file               path of file to read in\n'
-  + '    -m, --minify             minify generated source code\n'
-  + '    -s, --features           shows a json dictionary of features supported by a user agent\n'
-  + '    -a, --agent              the user agent string to test\n'
-  + '    -t, --tests              shows the names of all tests supportedr\n'
-  + '    -u, --update             downloads the latest data from Browserscope\n'
-  + '    -h, --help               output help information\n'
-  ;
-
-var browserscope =
-    "http://www.browserscope.org/user/tests/table/agt1YS1wcm9maWxlcnINCxIEVGVzdBiG3-0GDA?v=3&o=json";
+    + '\n'
+    + 'Usage: hascan [options] [features]\n'
+    + '\n'
+    + '    -b, --build              builds has.js with only the tests you want\n'
+    + '                                Use [features] arguments to specify feature tests to include\n'
+    + '                                Use --file or stdin to include only features tested in JS source\n'
+    + '    -e, --eliminate          eliminates has() branches for unavailable features\n'
+    + '                                Use [features] arguments to specify available features\n'
+    + '                                Use --agent to look up the features available for a user-agent\n'
+    + '                                Use --file option or stdin to provide JavaScript to process\n'
+    + '    -s, --features           shows a list of features supported by a user agent\n'
+    + '                                Use --agent to specify the user-agent to query\n'
+    + '                                Use [features] arguments to limit list to a set of features\n'
+    + '    -t, --tests              shows the names of all tests supported\n'
+    + '    -u, --update             downloads the latest data from Browserscope to has.json\n'
+    + '\n'
+    + '    -a, --agent              user agent string\n'
+    + '    -f, --file               path of a file to read in\n'
+    + '    -m, --minify             minify generated source code\n'
+    + '\n'
+    + '    -h, --help               output help information\n'
+    ;
 
 var args = process.argv.slice(2);
 var command;
@@ -45,11 +47,11 @@ while (args.length) {
         switch (arg) {
             case '-b':
             case '--build':
-                command = function() { build(minify, features); }
+                command = function() { build(filePath, minify, features); }
                 break;
             case '-e':
             case '--eliminate':
-                command = function() { eliminate(filePath, minify, features); }
+                command = function() { eliminate(filePath, userAgent, minify, features); }
                 break;
             case '-f':
             case '--file':
@@ -91,57 +93,64 @@ if (command) {
     abort(usage);
 }
 
-function build(minify, features) {
-    hascan.buildHasWithTests(features, minify, function(err, js) {
-        if (err) {
-            console.error(err);
-        } else {
-            console.log(js);    
+function build(filePath, minify, features) {
+    readInput(filePath, !features || !features.length, function(err, source) {
+        if (source) {
+            features = hascan.findFeatureTests(source);
         }
+
+        hascan.buildHasWithTests(features, minify, function(err, js) {
+            if (err) {
+                console.error(err);
+            } else {
+                console.log(js);    
+            }
+        });
     });
 }
 
-function eliminate(filePath, minify, features) {
-    var source;
-    if (!filePath) {
-        process.stdin.resume();
-        process.stdin.setEncoding('utf8');
-
-        var chunks = [];
-        process.stdin.on('data', function(chunk) {
-            chunks.push(chunk);
-        });
-        process.stdin.on('end', function(chunk) {
-            var data = chunks.join('');
-            complete(data);
-        });
-    } else {
-        fs.readFile(filePath, function(err, data) {
-            if (err) {
-                console.error("Unable to read " + filePath);            
-            } else {
-                complete(data+'');
+function eliminate(filePath, userAgent, minify, features) {
+    readInput(filePath, true, function(err, source) {
+        if (userAgent) {
+            hascan.getFeatureDB(function(err, featureDB) {
+                if (err) {
+                    console.error("Error loading feature database: " + err)
+                } else {
+                    var featureMap = featureDB.getFeatureMap(userAgent);
+                    complete(source, featureMap);
+                }
+            });
+        } else {
+            var featureMap = {};
+            for (var i = 0; i < features.length; ++i) {
+                featureMap[features[i]] = true;
             }
-        });
-    }
 
-    function complete(data) {
-        var featureMap = {};
-        for (var i = 0; i < features.length; ++i) {
-            featureMap[features[i]] = true;
-        }
-        var source = hascan.elminateFeatureTests(data, featureMap, minify, !minify);
+            complete(source, featureMap);
+        }        
+    });
+
+    function complete(source, featureMap) {
+        var source = hascan.eliminateFeatureTests(source, featureMap, minify, !minify);
         console.log(source);
     }
 }
 
 function listFeatures(userAgent, features) {
+    if (!userAgent) {
+        abort("You must specify a user-agent with --agent.");
+    }
+
     hascan.getFeatureDB(features, function(err, featureDB) {
         if (err) {
             console.error("Error loading feature database: " + err)
         } else {
             var featureMap = featureDB.getFeatureMap(userAgent);
-            console.log(JSON.stringify(featureMap));
+            for (var feature in featureMap) {
+                if (featureMap[feature]) {
+                    console.log(feature);
+                }
+            }
         }
     });
 }
@@ -165,50 +174,47 @@ function tests(features) {
 }
 
 function update() {
-    var URL = url.parse(browserscope);
-    var options = {host: URL.host, port: URL.port, path: URL.pathname+URL.search};
-    console.log('Loading', browserscope, '...');
-
-    http.get(options, function(res) {
-        var data = [];
-        res.on('data', function(chunk) {
-            data.push(chunk);
-        });
-
-        res.on('end', function() {
-            var output = data.join('');
-            var hasJsonPath = path.resolve(path.join(__dirname, '..', 'has.json'));
-            var previousData;
-            fs.readFile(hasJsonPath, function(err, data) {
-                previousData = data ? JSON.parse(data) : null;
-
-                var browsers = [];
-                if (previousData) {
-                    var newData = JSON.parse(output);
-                    for (var browserId in newData.results) {
-                        if (!(browserId in previousData.results)) {
-                            browsers.push(browserId);
-                        }
-                    }
-                }
-                if (browsers.length) {
-                    console.log(browsers.length +
-                                ' new browser' + (browsers.length > 1 ? 's' : '') + ' found: ' +
-                                browsers.join(', '));
-                } else {
-                    console.log('No new browsers found.');
-                }
-
-                fs.writeFile(hasJsonPath, output, function(err) {
-                    if (err) {
-                        console.error("Unable to save has.json");
-                    }
-                });
-            });
-        });
-    }).on('error', function(err) {
-        console.error(err);
+    console.log('Contacting Browserscope...');
+    hascan.downloadTests(function(err, newBrowsers) {
+        if (err) {
+            console.error("Unable to download tests.");
+        } else if (newBrowsers.length) {
+            console.log(newBrowsers.length +
+                        ' new browser' + (newBrowsers.length > 1 ? 's' : '') + ' found: ' +
+                        newBrowsers.join(', '));
+        } else {
+            console.log('No new browsers found.');
+        }        
     });
+}
+
+function readInput(filePath, readStdin, cb) {
+    if (filePath) {
+        fs.readFile(filePath, function(err, data) {
+            if (err) {
+                cb(err);
+            } else {
+                cb(0, data+'');
+            }
+        });
+    } else if (readStdin) {
+        process.stdin.resume();
+        process.stdin.setEncoding('utf8');
+
+        var chunks = [];
+        process.stdin.on('data', function(chunk) {
+            chunks.push(chunk);
+        });
+        process.stdin.on('end', function(chunk) {
+            var data = chunks.join('');
+            cb(0, data);
+        });
+        process.stdin.on('error', function(err) {
+            cb(err);
+        });
+    } else {
+        cb(0, '');
+    }
 }
 
 function abort(str) {
