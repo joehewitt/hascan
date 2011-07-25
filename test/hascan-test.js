@@ -9,7 +9,7 @@ var hascan = require('hascan');
 // *************************************************************************************************
 
 vows.describe('basics').addBatch({
-    'tests': {
+    'stripping': {
         'if pass': function() {
             stripTest(
 	            'if (has("canvas")) { 1; } else { 2; }',
@@ -100,10 +100,58 @@ vows.describe('basics').addBatch({
 	        	{canvas: 1},
 	        	'{2}');
         },
+    },
+
+    'find features': {
+    	'find one': function() {
+    		findTest(
+    			'has("canvas")',
+    			['canvas']);
+    	},
+
+    	'find two': function() {
+    		findTest(
+    			'if (has("canvas")) {} else if (has("svg")) {}',
+    			['canvas', 'svg']);
+    	}
+    },
+
+    'feature db': {
+    	topic: function() {
+    		hascan.getFeatureDB(['canvas', 'svg'], this.callback);
+    	},
+
+    	'chrome known': function(featureDB) {
+    		uaTest(featureDB,
+	    		   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.803.0 Safari/535.1",
+    			   {canvas: true, svg: true});
+    	},
+
+    	'chrome unknown minor': function(featureDB) {
+    		uaTest(featureDB,
+	    		   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.99.0 Safari/535.1",
+    			   {canvas: true, svg: true});
+    	},
+
+    	'unknown': function(featureDB) {
+    		uaTest(featureDB,
+	    		   "Foobrowser",
+    			   null);
+    	}    	
     }
 }).export(module);
 
-function stripTest(js, featureMap, result) {
+function findTest(js, expected) {
+	var source = hascan.findFeatureTests(js);
+	assert.deepEqual(source, expected);	
+}
+
+function stripTest(js, featureMap, expected) {
 	var source = hascan.stripFeatureTests(js, featureMap);
-	assert.equal(source, result);	
+	assert.equal(source, expected);	
+}
+
+function uaTest(featureDB, userAgent, expected) {
+	var featureMap = featureDB.getFeatureMap(userAgent);
+	assert.deepEqual(featureMap, expected);
 }
