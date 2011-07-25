@@ -1,11 +1,17 @@
 hascan
 ===========
 
-A way to leverage has.js in the most optimal way possible for Node.js web apps.
+Build slim versions of has.js or use has.js on the server to optimize your code.
 
-1. Leverage Browserscope database of has.js tests for many user agents
-2. For each user agent, remove code where if(has('feature')) fails
-3. If you must serve has.js to browsers, build a version that uas only the tests you need
+Slimming has.js
+---------------
+
+has.js is a broad set of browser feature tests, but it can be costly to include the full tests suite in your web apps.  With hascan, you can build a version of has.js that includes only the feature tests you actually use in your code.
+
+Slimming Your Code
+------------------
+
+The best way to use has.js is not to use it at all. Hascan can make browser-specific versions of your code by eliminating branches of code meant for other browsers.  Using data from [Browserscope](http://www.browserscope.org/user/tests/table/agt1YS1wcm9maWxlcnINCxIEVGVzdBiG3-0GDA?v=3), Hascan can take a user-agent string and determine ahead of time which features that browser supports.  Your code can then be statically analyzed using [Uglify](https://github.com/mishoo/UglifyJS) to find has('feature') tests that don't apply to the browser, and remove them for you.
 
 Status
 ------------
