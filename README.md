@@ -81,6 +81,15 @@ Getting features supported by a user-agent:
 
     { canvas: true, svg: true, activex: false }
 
+Browserscope
+------------
+
+Hascan uses data posted to Browserscope here:
+
+[http://www.browserscope.org/user/tests/table/agt1YS1wcm9maWxlcnINCxIEVGVzdBiG3-0GDA?v=3](http://www.browserscope.org/user/tests/table/agt1YS1wcm9maWxlcnINCxIEVGVzdBiG3-0GDA?v=3)
+
+This data may not yet cover all browsers. If there is a browser missing, [go here](http://joehewitt.com/has/tests/runTests.html) and post test results for that browser.
+
 License 
 -------
 
