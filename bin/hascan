@@ -13,6 +13,8 @@ var usage = ''
   + '\n'
   + '  Options:\n'
   + '    -b, --build              build has.js with only the tests you want\n'
+  + '    -a, --agent              gets a json dictionary of features supported by a browser\n'
+  + '    -t, --tests              lists the names of all tests supportedr\n'
   + '    -u, --update             download the latest data from Browserscope\n'
   + '    -h, --help               output help information\n'
   ;
@@ -35,9 +37,17 @@ while (args.length) {
     case '--build':
       command = build;
       break;
+    case '-a':
+    case '--agent':
+      command = agent;
+      break;
     case '-u':
     case '--update':
       command = update;
+      break;
+    case '-t':
+    case '--tests':
+      command = tests;
       break;
     default:
         features.push(arg);
@@ -60,7 +70,38 @@ function build(features) {
     });
 }
 
-function update(features) {
+function agent(features) {
+    var userAgent = features.shift();
+
+    hascan.getFeatureDB(features, function(err, featureDB) {
+        if (err) {
+            console.error("Error loading feature database: " + err)
+        } else {
+            var featureMap = featureDB.getFeatureMap(userAgent);
+            console.log(JSON.stringify(featureMap));
+        }
+    });
+}
+
+function tests(features) {
+    var userAgent = features.shift();
+
+    hascan.readFeatures(function(err, hasData) {
+        if (err) {
+            console.error("Error loading feature database: ")
+            console.error(err)
+        } else {
+            for (var browserId in hasData.results) {
+                for (var featureId in hasData.results[browserId].results) {
+                    console.log(featureId);
+                }
+                break;
+            }
+        }
+    });
+}
+
+function update() {
     var URL = url.parse(browserscope);
     var options = {host: URL.host, port: URL.port, path: URL.pathname+URL.search};
     console.log('Loading', browserscope, '...');
@@ -74,7 +115,6 @@ function update(features) {
         res.on('end', function() {
             var output = data.join('');
             var hasJsonPath = path.resolve(path.join(__dirname, '..', 'has.json'));
-            // XXXjoe Read and parse previous version here
             var previousData;
             fs.readFile(hasJsonPath, function(err, data) {
                 previousData = data ? JSON.parse(data) : null;
