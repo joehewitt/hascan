@@ -72,6 +72,7 @@ Eliminating code:
 Getting features supported by a user-agent: 
 
     var hascan = require('hascan');
+    var userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.803.0 Safari/535.1";
     hascan.getFeatureDB(['canvas', 'svg', 'activex'], function(err, featureDB) {
         var featureMap = featureDB.getFeatureMap(userAgent);
         console.log(featureMap);
