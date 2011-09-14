@@ -6,7 +6,7 @@ Build slim versions of has.js or use has.js on the server to optimize your code.
 Slimming has.js
 ---------------
 
-[has.js]() adds a non-trival amount of code to your pages.  With hascan, you can build a version of has.js that includes only the feature tests you actually use in your code.
+[has.js][] adds a non-trival amount of code to your pages.  With hascan, you can build a version of has.js that includes only the feature tests you actually use in your code.
 
     hascan --build svg canvas audio-mp3
 
