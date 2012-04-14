@@ -12430,6 +12430,737 @@
       }
     , 
   
+    "iPad 5.1": {
+      "count": "1",
+      "summary_score": "72",
+      "results": {
+        "activex": {
+          "result": "0"
+        }, 
+        
+        "activex-enabled": {
+          "result": "0"
+        }, 
+        
+        "array-es5": {
+          "result": "1"
+        }, 
+        
+        "array-every": {
+          "result": "1"
+        }, 
+        
+        "array-filter": {
+          "result": "1"
+        }, 
+        
+        "array-foreach": {
+          "result": "1"
+        }, 
+        
+        "array-indexof": {
+          "result": "1"
+        }, 
+        
+        "array-isarray": {
+          "result": "1"
+        }, 
+        
+        "array-lastindexof": {
+          "result": "1"
+        }, 
+        
+        "array-map": {
+          "result": "1"
+        }, 
+        
+        "array-reduce": {
+          "result": "1"
+        }, 
+        
+        "array-reduceright": {
+          "result": "1"
+        }, 
+        
+        "array-some": {
+          "result": "1"
+        }, 
+        
+        "audio": {
+          "result": "1"
+        }, 
+        
+        "audio-m4a": {
+          "result": "1"
+        }, 
+        
+        "audio-mp3": {
+          "result": "1"
+        }, 
+        
+        "audio-ogg": {
+          "result": "0"
+        }, 
+        
+        "audio-wav": {
+          "result": "1"
+        }, 
+        
+        "bug-arguments-instanceof-array": {
+          "result": "0"
+        }, 
+        
+        "bug-array-concat-arguments": {
+          "result": "0"
+        }, 
+        
+        "bug-computed-style-hidden-zero-height": {
+          "result": "0"
+        }, 
+        
+        "bug-computed-values-for-static": {
+          "result": "0"
+        }, 
+        
+        "bug-contains": {
+          "result": "0"
+        }, 
+        
+        "bug-es5-regexp": {
+          "result": "0"
+        }, 
+        
+        "bug-es5-trim": {
+          "result": "0"
+        }, 
+        
+        "bug-for-in-repeats-shadowed": {
+          "result": "0"
+        }, 
+        
+        "bug-for-in-skips-shadowed": {
+          "result": "0"
+        }, 
+        
+        "bug-function-expression": {
+          "result": "0"
+        }, 
+        
+        "bug-getelementbyid-ids-names": {
+          "result": "0"
+        }, 
+        
+        "bug-getelementbyid-ignores-case": {
+          "result": "0"
+        }, 
+        
+        "bug-getelementsbyname": {
+          "result": "0"
+        }, 
+        
+        "bug-getelementsbytagname-returns-comment-nodes": {
+          "result": "0"
+        }, 
+        
+        "bug-offset-values-positioned-inside-static": {
+          "result": "0"
+        }, 
+        
+        "bug-overflow-style": {
+          "result": "0"
+        }, 
+        
+        "bug-pre-ignores-newline": {
+          "result": "0"
+        }, 
+        
+        "bug-properties-are-attributes": {
+          "result": "0"
+        }, 
+        
+        "bug-qsa": {
+          "result": "0"
+        }, 
+        
+        "bug-query-selector-ignores-caps": {
+          "result": "0"
+        }, 
+        
+        "bug-readonly-element-name": {
+          "result": "0"
+        }, 
+        
+        "bug-readonly-element-type": {
+          "result": "0"
+        }, 
+        
+        "bug-root-children-not-styled": {
+          "result": "0"
+        }, 
+        
+        "bug-script-rejects-textnode-append": {
+          "result": "0"
+        }, 
+        
+        "bug-select-innerhtml": {
+          "result": "0"
+        }, 
+        
+        "bug-string-replace-ignores-functions": {
+          "result": "0"
+        }, 
+        
+        "bug-string-split-regexp": {
+          "result": "0"
+        }, 
+        
+        "bug-table-innerhtml": {
+          "result": "0"
+        }, 
+        
+        "bug-tofixed-rounding": {
+          "result": "0"
+        }, 
+        
+        "bug-typeof-nodelist-function": {
+          "result": "1"
+        }, 
+        
+        "bug-xpath-position": {
+          "result": "0"
+        }, 
+        
+        "canvas": {
+          "result": "1"
+        }, 
+        
+        "canvas-text": {
+          "result": "1"
+        }, 
+        
+        "canvas-webgl": {
+          "result": "1"
+        }, 
+        
+        "css-border-radius": {
+          "result": "1"
+        }, 
+        
+        "css-box-shadow": {
+          "result": "1"
+        }, 
+        
+        "css-box-sizing": {
+          "result": "1"
+        }, 
+        
+        "css-content-box": {
+          "result": "1"
+        }, 
+        
+        "css-enabled": {
+          "result": "1"
+        }, 
+        
+        "css-opacity": {
+          "result": "1"
+        }, 
+        
+        "css-opacity-filter": {
+          "result": "0"
+        }, 
+        
+        "css-pointerevents": {
+          "result": "1"
+        }, 
+        
+        "css-position-fixed": {
+          "result": "1"
+        }, 
+        
+        "css-resize": {
+          "result": "1"
+        }, 
+        
+        "css-rgba": {
+          "result": "1"
+        }, 
+        
+        "css-selectable": {
+          "result": "1"
+        }, 
+        
+        "css-style-float": {
+          "result": "0"
+        }, 
+        
+        "css-text-overflow": {
+          "result": "1"
+        }, 
+        
+        "css-text-shadow": {
+          "result": "1"
+        }, 
+        
+        "css-transform": {
+          "result": "1"
+        }, 
+        
+        "date-now": {
+          "result": "1"
+        }, 
+        
+        "date-toisostring": {
+          "result": "1"
+        }, 
+        
+        "date-tojson": {
+          "result": "1"
+        }, 
+        
+        "dom": {
+          "result": "1"
+        }, 
+        
+        "dom-addeventlistener": {
+          "result": "1"
+        }, 
+        
+        "dom-attrmodified": {
+          "result": "0"
+        }, 
+        
+        "dom-children": {
+          "result": "1"
+        }, 
+        
+        "dom-computed-style": {
+          "result": "1"
+        }, 
+        
+        "dom-create-attr": {
+          "result": "0"
+        }, 
+        
+        "dom-createelementns": {
+          "result": "1"
+        }, 
+        
+        "dom-current-style": {
+          "result": "0"
+        }, 
+        
+        "dom-dataset": {
+          "result": "1"
+        }, 
+        
+        "dom-dynamic-base": {
+          "result": "1"
+        }, 
+        
+        "dom-element-do-scroll": {
+          "result": "0"
+        }, 
+        
+        "dom-html5-elements": {
+          "result": "1"
+        }, 
+        
+        "dom-nodelist-sliceable": {
+          "result": "1"
+        }, 
+        
+        "dom-quirks": {
+          "result": "0"
+        }, 
+        
+        "dom-selectable": {
+          "result": "0"
+        }, 
+        
+        "dom-subtreemodified": {
+          "result": "1"
+        }, 
+        
+        "dom-tagname-uppercase": {
+          "result": "1"
+        }, 
+        
+        "eval-global-scope": {
+          "result": "1"
+        }, 
+        
+        "event-contextmenu": {
+          "result": "1"
+        }, 
+        
+        "event-metakey": {
+          "result": "1"
+        }, 
+        
+        "event-preventdefault": {
+          "result": "1"
+        }, 
+        
+        "event-relatedtarget": {
+          "result": "1"
+        }, 
+        
+        "event-srcelement": {
+          "result": "1"
+        }, 
+        
+        "event-stoppropagation": {
+          "result": "1"
+        }, 
+        
+        "function-bind": {
+          "result": "0"
+        }, 
+        
+        "function-caller": {
+          "result": "1"
+        }, 
+        
+        "input-attr-autocomplete": {
+          "result": "0"
+        }, 
+        
+        "input-attr-autofocus": {
+          "result": "1"
+        }, 
+        
+        "input-attr-indeterminate ": {
+          "result": "0"
+        }, 
+        
+        "input-attr-list": {
+          "result": "0"
+        }, 
+        
+        "input-attr-max": {
+          "result": "1"
+        }, 
+        
+        "input-attr-maxlength": {
+          "result": "1"
+        }, 
+        
+        "input-attr-min": {
+          "result": "1"
+        }, 
+        
+        "input-attr-multiple": {
+          "result": "1"
+        }, 
+        
+        "input-attr-pattern": {
+          "result": "1"
+        }, 
+        
+        "input-attr-placeholder": {
+          "result": "1"
+        }, 
+        
+        "input-attr-readonly": {
+          "result": "1"
+        }, 
+        
+        "input-attr-required": {
+          "result": "1"
+        }, 
+        
+        "input-attr-selectedoption": {
+          "result": "0"
+        }, 
+        
+        "input-attr-size": {
+          "result": "1"
+        }, 
+        
+        "input-attr-step": {
+          "result": "1"
+        }, 
+        
+        "input-attr-validationmessage": {
+          "result": "1"
+        }, 
+        
+        "input-attr-validity": {
+          "result": "1"
+        }, 
+        
+        "input-attr-valueasdate": {
+          "result": "1"
+        }, 
+        
+        "input-attr-valueasnumber": {
+          "result": "1"
+        }, 
+        
+        "input-attr-willvalidate": {
+          "result": "1"
+        }, 
+        
+        "input-checkvalidity": {
+          "result": "1"
+        }, 
+        
+        "input-type-color": {
+          "result": "1"
+        }, 
+        
+        "input-type-date": {
+          "result": "1"
+        }, 
+        
+        "input-type-datetime": {
+          "result": "1"
+        }, 
+        
+        "input-type-datetime-local": {
+          "result": "1"
+        }, 
+        
+        "input-type-email": {
+          "result": "1"
+        }, 
+        
+        "input-type-month": {
+          "result": "1"
+        }, 
+        
+        "input-type-number": {
+          "result": "1"
+        }, 
+        
+        "input-type-range": {
+          "result": "1"
+        }, 
+        
+        "input-type-search": {
+          "result": "1"
+        }, 
+        
+        "input-type-tel": {
+          "result": "1"
+        }, 
+        
+        "input-type-time": {
+          "result": "1"
+        }, 
+        
+        "input-type-url": {
+          "result": "1"
+        }, 
+        
+        "input-type-week": {
+          "result": "1"
+        }, 
+        
+        "js-enabled-direct": {
+          "result": "1"
+        }, 
+        
+        "js-enabled-lazy": {
+          "result": "1"
+        }, 
+        
+        "js-enabled-lazy-now": {
+          "result": "1"
+        }, 
+        
+        "json-parse": {
+          "result": "1"
+        }, 
+        
+        "json-stringify": {
+          "result": "1"
+        }, 
+        
+        "native-console": {
+          "result": "1"
+        }, 
+        
+        "native-cors-xhr": {
+          "result": "1"
+        }, 
+        
+        "native-crosswindowmessaging": {
+          "result": "1"
+        }, 
+        
+        "native-details": {
+          "result": "0"
+        }, 
+        
+        "native-eventsource": {
+          "result": "1"
+        }, 
+        
+        "native-geolocation": {
+          "result": "1"
+        }, 
+        
+        "native-history-state": {
+          "result": "1"
+        }, 
+        
+        "native-indexeddb": {
+          "result": "0"
+        }, 
+        
+        "native-localstorage": {
+          "result": "1"
+        }, 
+        
+        "native-navigator": {
+          "result": "1"
+        }, 
+        
+        "native-orientation": {
+          "result": "1"
+        }, 
+        
+        "native-sessionstorage": {
+          "result": "1"
+        }, 
+        
+        "native-sharedworker": {
+          "result": "1"
+        }, 
+        
+        "native-sql-db": {
+          "result": "1"
+        }, 
+        
+        "native-websockets": {
+          "result": "1"
+        }, 
+        
+        "native-worker": {
+          "result": "1"
+        }, 
+        
+        "native-xhr": {
+          "result": "1"
+        }, 
+        
+        "native-xhr-uploadevents": {
+          "result": "1"
+        }, 
+        
+        "object-__proto__": {
+          "result": "1"
+        }, 
+        
+        "object-create": {
+          "result": "1"
+        }, 
+        
+        "object-defineproperties": {
+          "result": "1"
+        }, 
+        
+        "object-defineproperty": {
+          "result": "1"
+        }, 
+        
+        "object-es5": {
+          "result": "1"
+        }, 
+        
+        "object-freeze": {
+          "result": "1"
+        }, 
+        
+        "object-getownpropertydescriptor": {
+          "result": "1"
+        }, 
+        
+        "object-getownpropertynames": {
+          "result": "1"
+        }, 
+        
+        "object-getprototypeof": {
+          "result": "1"
+        }, 
+        
+        "object-isextensible": {
+          "result": "1"
+        }, 
+        
+        "object-isfrozen": {
+          "result": "1"
+        }, 
+        
+        "object-issealed": {
+          "result": "1"
+        }, 
+        
+        "object-keys": {
+          "result": "1"
+        }, 
+        
+        "object-preventextensions": {
+          "result": "1"
+        }, 
+        
+        "object-seal": {
+          "result": "1"
+        }, 
+        
+        "script-async": {
+          "result": "1"
+        }, 
+        
+        "script-defer": {
+          "result": "1"
+        }, 
+        
+        "string-trim": {
+          "result": "1"
+        }, 
+        
+        "svg": {
+          "result": "1"
+        }, 
+        
+        "svg-clippaths": {
+          "result": "1"
+        }, 
+        
+        "svg-inlinesvg": {
+          "result": "1"
+        }, 
+        
+        "svg-smil": {
+          "result": "1"
+        }, 
+        
+        "video": {
+          "result": "1"
+        }, 
+        
+        "video-h264-baseline": {
+          "result": "1"
+        }, 
+        
+        "video-ogg-theora": {
+          "result": "0"
+        }, 
+        
+        "video-webm": {
+          "result": "0"
+        }, 
+        
+        "vml": {
+          "result": "0"
+        }
+      }
+    }
+  , 
+  
       "iPhone 4.3": {
         "count": "4",
         "summary_score": "66",
