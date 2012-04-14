@@ -1,24 +1,30 @@
 {
   "name": "hascan",
   "description": "Build tools for has.js.",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "homepage": "http://github.com/joehewitt/hascan",
   "repository": {
-      "type": "git",
-      "url" : "http://github.com/joehewitt/hascan.git"
+    "type": "git",
+    "url": "git://github.com/joehewitt/hascan.git"
   },
   "keywords": [],
   "author": "Joe Hewitt <joe@joehewitt.com>",
   "contributors": [],
-  "dependencies": {     
+  "dependencies": {
     "async": "",
     "dandy": "",
     "transformjs": "",
     "ua-parser": "",
     "underscore": ""
   },
-  "engines": { "node": ">=0.4.0" },
+  "engines": {
+    "node": ">=0.4.0"
+  },
   "main": "./lib/hascan",
-  "bin" : {"hascan": "./bin/hascan"},
-  "directories": {}
+  "bin": {
+    "hascan": "./bin/hascan"
+  },
+  "directories": {},
+  "devDependencies": {},
+  "optionalDependencies": {}
 }
